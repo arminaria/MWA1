@@ -15,9 +15,9 @@ int main(int argc, char *argv[])
 {
 	int sock;
 	struct sockaddr_in server;
-	int port = 1111;
-	char *serverIP = "192.168.2.103";
-	char *msg = "test";
+	int port = 12345;
+	char *serverIP = "127.0.0.1";
+	char *msg = "1235567";
 	int num = 666;
 	struct hostent *he;
 
@@ -58,9 +58,13 @@ int main(int argc, char *argv[])
 	char *msg2 = (char*) &num2;
 	printf("%s\n\n",msg2);
 
-	send(sock,msg2, sizeof(msg2),0);
+	
+	
+	send(sock, msg, sizeof(msg) ,0);
 	printf("msg send\n\n");
 	printf("%s \n",msg);
+
+	getchar();
 
 	close(sock);
 	
