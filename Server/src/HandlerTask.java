@@ -19,7 +19,7 @@ public class HandlerTask implements Runnable {
 
 
     @Override
-    public void run(){
+    public void run() {
         try {
             // output stream for writing bytes to the client
             OutputStream outputStream = client.getOutputStream();
@@ -71,7 +71,7 @@ public class HandlerTask implements Runnable {
     private Integer getNumber(char[] buffer, int read) {
         String readString = String.valueOf(buffer, 0, read).trim();
         System.out.println(String.format("buffer: '%s'", readString));
-        Integer number = Integer.valueOf(readString);
+        Integer number = getIntFromBinary(readString);
         System.out.println(String.format("Received number %d", number));
         return number;
     }
@@ -119,5 +119,13 @@ public class HandlerTask implements Runnable {
         }
 
         return sb.toString();
+    }
+
+    /**
+     * @param b the binary String
+     * @return int value of the binary
+     */
+    private int getIntFromBinary(String b) {
+        return Integer.parseInt(b, 2);
     }
 }
