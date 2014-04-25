@@ -1,5 +1,3 @@
-import javafx.concurrent.Task;
-
 import java.io.IOException;
 import java.net.InetAddress;
 import java.net.ServerSocket;
@@ -30,7 +28,6 @@ public class Server implements Runnable {
             serverSocket = new ServerSocket(port);
             InetAddress inetAddress = serverSocket.getInetAddress();
             System.out.println(String.format("Server started on port %d", port));
-            System.out.println("Host address: "+ inetAddress.getHostName());
         } catch (IOException e) {
             System.out.println(String.format("could not create Server socket on port %d", port));
             System.exit(1);

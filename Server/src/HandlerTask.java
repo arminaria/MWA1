@@ -1,5 +1,3 @@
-import javafx.concurrent.Task;
-
 import java.io.*;
 import java.net.Socket;
 import java.util.Random;
@@ -45,24 +43,33 @@ public class HandlerTask implements Runnable {
             printWriter.flush();
 
             // wait for client to send the modified String
+            buffer = new char[32];
             bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
             read = bufferedReader.read(buffer, 0, buffer.length);
-            String msg = new String(buffer, 0, read);
-            System.out.println("received -> " + msg);
 
             // Verify the String
+
             String verify = "FAIL";
-            if (msg.equals(switchCases(randomString))) {
+            if (check(buffer, read, incrementedNumber, randomString)) {
                 verify = "OK";
             }
 
             // write back to the client
             printWriter = new PrintWriter(outputStream, true);
+            System.out.println("sending -> " + verify);
             printWriter.print(verify);
             printWriter.flush();
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    private boolean check(char[] buffer, int read, int incremented, String randomString) {
+        String msg = String.valueOf(buffer, 0, read).trim();
+        System.out.println("received -> " + msg);
+        String switchedCases = incremented + " " + switchCases(randomString);
+        return msg.equals(switchedCases);
+
     }
 
     /**
@@ -108,15 +115,17 @@ public class HandlerTask implements Runnable {
      * @return msg with changed the upper case letters to lower case letters and vice-versa
      */
     private String switchCases(String msg) {
-        StringBuilder sb = new StringBuilder(msg.length());
+        StringBuilder sb = new StringBuilder();
         for (int i = 0; i < msg.length(); i++) {
             char c = msg.charAt(i);
             if (Character.isUpperCase(c)) {
                 sb.append(Character.toLowerCase(c));
-            } else if (Character.isUpperCase(c)) {
+            } else if (Character.isLowerCase(c)) {
                 sb.append(Character.toUpperCase(c));
             } else if (Character.isDigit(c)) {
                 sb.append(c);
+            } else if (!Character.isDefined(c)) {
+                break;
             }
         }
 
@@ -130,4 +139,5 @@ public class HandlerTask implements Runnable {
     private int getIntFromBinary(String b) {
         return Integer.parseInt(b, 2);
     }
+
 }
