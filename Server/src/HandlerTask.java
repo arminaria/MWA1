@@ -40,6 +40,7 @@ public class HandlerTask implements Runnable {
 
             // write back to the client
             PrintWriter printWriter = new PrintWriter(outputStream, true);
+            System.out.println("sending -> " + incrementedNumber + " " + randomString);
             printWriter.print(incrementedNumber + " " + randomString);
             printWriter.flush();
 
@@ -47,6 +48,7 @@ public class HandlerTask implements Runnable {
             bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
             read = bufferedReader.read(buffer, 0, buffer.length);
             String msg = new String(buffer, 0, read);
+            System.out.println("received -> " + msg);
 
             // Verify the String
             String verify = "FAIL";
