@@ -9,10 +9,53 @@
 #include <arpa/inet.h>
 #include <netdb.h>
 
-#define MAX_BUFFER_LENGTH 100
+#define MAX_BUFFER_LENGTH 32
+
+char *itob(int n){
+	int c, d, count;
+	char *pointer;
+
+	count = 0;
+	pointer = (char*)malloc(MAX_BUFFER_LENGTH + 1);
+
+	if (pointer == NULL)
+		exit(EXIT_FAILURE);
+
+	for (c = MAX_BUFFER_LENGTH-1; c >= 0; c--)
+	{
+		d = n >> c;
+		printf("%d\n", d);
+
+		if (d & 1)
+			*(pointer + count) = 1;
+		else
+			*(pointer + count) = 0;
+
+		count++;
+	}
+	*(pointer + count) = '\0';
+
+	return  pointer;
+}
 
 int main(int argc, char *argv[])
 {
+	
+	
+	int n, c, k;
+	char *pointer;
+
+	printf("Enter an integer in decimal number system\n");
+	scanf("%d", &n);
+
+	pointer = itob(n);
+	printf("Binary string of %d is: %s\n", n, pointer);
+
+	free(pointer);
+
+	getchar();
+	return 0;
+
 	int sock;
 	struct sockaddr_in server;
 	int port = 12345;
